@@ -13,7 +13,7 @@ import json, math
 from typing import Tuple, Optional, Union
 import gc
 
-
+INPUT_SIZE = '500'
 
 device = torch.device('cuda:0')
 
@@ -425,15 +425,15 @@ def main():
     parser.add_argument('--use_image_embedding_as_clipcap', dest='use_image_embedding_as_clipcap', action='store_true', default=False, help='use image embedding as ClipCap')
     args = parser.parse_args()
     if args.data == 'COCO':
-        args.bs = 30
+        args.bs = 8
         if args.use_image_embedding_as_clipcap:
-            args.data = './data/coco/oscar_split_RN50x4_train_with_text_embeddings.pkl'
+            args.data = '../data/coco/oscar_split_RN50x4_train_with_text_embeddings_{INPUT_SIZE}.pkl'
             args.val_pt = ''  # not used
         else:
-            args.data = './data/coco/oscar_split_RN50x4_train_with_text_embeddings.pkl'
-            args.val_pt = './data/coco/COCO_val_set_single_cap_per_sample_with_text.pkl'
+            args.data = '../data/coco/oscar_split_RN50x4_train_with_text_embeddings_{INPUT_SIZE}.pkl'
+            args.val_pt = '../data/coco/COCO_val_set_single_cap_per_sample_with_text_{INPUT_SIZE}.pkl'
         if args.dont_norm:
-            args.data = './data/coco/verified_split_COCO_train_set_with_text_not_norm.pkl'
+            args.data = '../data/coco/verified_split_COCO_train_set_with_text_not_norm_{INPUT_SIZE}.pkl'
             args.val_pt = ''
     elif args.data == 'FLICKR':
         args.bs = 16
