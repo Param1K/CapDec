@@ -1,12 +1,20 @@
 import pickle, json
-
+import os
 kagle_json = '../annotations/dataset_coco.json'
+
+INPUT_SIZE = '500'
+
+new_data_path = f'../post_processed_karpthy_coco_{INPUT_SIZE}'
+if not os.path.exists(new_data_path):
+    os.makedirs(new_data_path)
+
 new_json_train = f'../post_processed_karpthy_coco_{INPUT_SIZE}/train.json'
 new_json_test = f'../post_processed_karpthy_coco_{INPUT_SIZE}/test.json'
 new_json_val = f'../post_processed_karpthy_coco_{INPUT_SIZE}/val.json'
 
 
-def map_format_kaggle_to_clipcap():
+
+def map_format_kaggle_to_clipcap(INPUT_SIZE):
     def extract_imgid_from_name(filename):
         return str(int(filename.split('.')[0].split('_')[-1]))
 
@@ -15,6 +23,23 @@ def map_format_kaggle_to_clipcap():
     train_data = []
     test_data = []
     val_data = []
+    if INPUT_SIZE == '10k':
+        train_count = 10000
+        test_count = 2000
+        val_count = 2000
+    elif INPUT_SIZE == '5k':
+        train_count = 5000
+        test_count = 1000
+        val_count = 1000
+    elif INPUT_SIZE == '1k':
+        train_count = 1000
+        test_count = 200
+        val_count = 200
+    elif INPUT_SIZE == '500':
+        train_count = 500
+        test_count = 100
+        val_count = 100
+
     splits = {'train': train_data, 'test': test_data, 'val': val_data, 'restval': train_data}
     out_names = {'train': new_json_train, 'test': new_json_test, 'val': new_json_val}
     for img in kaggle_data['images']:
@@ -63,4 +88,4 @@ def map_format_kaggle_to_clipcap():
 
 
 if __name__ == '__main__':
-    map_format_kaggle_to_clipcap()
+    map_format_kaggle_to_clipcap(INPUT_SIZE)
