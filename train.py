@@ -425,7 +425,7 @@ def main():
     parser.add_argument('--use_image_embedding_as_clipcap', dest='use_image_embedding_as_clipcap', action='store_true', default=False, help='use image embedding as ClipCap')
     args = parser.parse_args()
     if args.data == 'COCO':
-        args.bs = 8
+        args.bs = 2
         if args.use_image_embedding_as_clipcap:
             args.data = '../data/coco/oscar_split_RN50x4_train_with_text_embeddings_{INPUT_SIZE}.pkl'
             args.val_pt = ''  # not used
@@ -477,3 +477,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # On Laptop
+    # args : --data ..\data\coco\verified_split_COCO_train_set_with_text_not_norm_500.pkl --bs 4 --epochs 10 --out_dir ../coco_train/ --noise_variance 0.016
+    # On Colab
+    # args : --data .\verified_split_COCO_train_set_with_text_not_norm_500.pkl --bs 4 --epochs 10 --out_dir ./coco_train/ --noise_variance 0.016
