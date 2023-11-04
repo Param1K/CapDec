@@ -14,6 +14,7 @@ from gpt2_prefix_eval import generate_beam, generate2, imshow, get_prefix_tokens
 from torchvision import transforms
 import os.path
 
+INPUT_SIZE = '500'
 
 def count_ready_parphrased_embeddings(embeddings_dict):
     ready = 0
@@ -169,12 +170,11 @@ def make_preds(data, model: ClipCaptionModel, out_path, tokenizer, dataset_mode,
         images_root = '../data/coco/val2014'
         #images_root = '../myprivate_coco/val2014'
     elif dataset_mode == 1:
-        images_root = '/home/gamir/DER-Roei/davidn/flicker30/flickr30k_images'
+        images_root = '../data/flicker30/flickr30k_images'
     elif dataset_mode == 2 or dataset_mode == 3 or dataset_mode == 4:
-        images_root = '/home/gamir/DER-Roei/davidn/flicker8kforStyle/Images'
+        images_root = '../data/flicker8kforStyle/Images'
     elif dataset_mode == 6:
-        images_root = '/home/gamir/DER-Roei/davidn/CLIP_prefix_caption/data/coco/train2014'
-        images_root = '../myprivate_coco/train2014'
+        images_root = '../data/coco/val2014'
     elif dataset_mode != 5:
         print("Wrong data mode")
         exit(1)

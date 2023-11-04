@@ -8,6 +8,8 @@ import os
 from tqdm import tqdm
 import argparse, math
 
+INPUT_SIZE = '500'
+
 # dave conf
 # ~~~~~~~~~
 add_text_embedding = True
@@ -116,19 +118,19 @@ def run_main():
     args = parser.parse_args()
     clip_model_name = args.clip_model_type.replace('/', '_')
     if args.dataset_mode == 0:
-        out_path = f"../data/coco/verified_split_COCO_train_set.pkl"
+        out_path = f"../data/coco/verified_split_COCO_train_set_{INPUT_SIZE}.pkl"
         if add_text_embedding:
-            out_path = f"./data/coco/verified_split_COCO_train_set_with_text_not_norm.pkl"
+            out_path = f"../data/coco/verified_split_COCO_train_set_with_text_not_norm_{INPUT_SIZE}.pkl"
             print(f'Text embeddings will be added to the dataset')
-        annotations_path = f'../post_processed_karpthy_coco_{INPUT_COUNT}/train.json'
-        images_path = '../data/coco/train2014'
+        annotations_path = f'../post_processed_karpthy_coco_{INPUT_SIZE}/train.json'
+        images_path = '../data/coco/train2014/'
     elif args.dataset_mode == 0.5:
-        out_path = f"./data/coco/COCO_val_set_single_cap_per_sample.pkl"
+        out_path = f"../data/coco/COCO_val_set_single_cap_per_sample_{INPUT_SIZE}.pkl"
         if add_text_embedding:
-            out_path = f"./data/coco/COCO_val_set_single_cap_per_sample_with_text_not_norm.pkl"
+            out_path = f"../data/coco/COCO_val_set_single_cap_per_sample_with_text_not_norm_{INPUT_SIZE}.pkl"
             print(f'Text embeddings will be added to the dataset')
-        annotations_path = f'/home/gamir/DER-Roei/davidn/myprivate_coco/annotations/single_caption_per_sample_val.json'
-        images_path = '/home/gamir/DER-Roei/davidn/myprivate_coco/val2014/'
+        annotations_path = f'../post_processed_karpthy_coco_{INPUT_SIZE}/val.json'
+        images_path = '../data/coco/val2014/'
     elif args.dataset_mode == 1:
         out_path = f"./data/flicker30_{clip_model_name}_train.pkl"
         if add_text_embedding:
