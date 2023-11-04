@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/amir/projects/CLIP")
+sys.path.append("./")
 from transformers import GPT2Tokenizer
 import os
 from custom_types import *
@@ -166,8 +166,8 @@ def make_preds(data, model: ClipCaptionModel, out_path, tokenizer, dataset_mode,
         modality_offset = get_precalculated_centers()['offset_to_add_in_inference'].to(device)
 
     if dataset_mode == 0 or dataset_mode == 7 or dataset_mode == 8:
-        images_root = '/home/gamir/DER-Roei/davidn/CLIP_prefix_caption/data/coco/val2014'
-        images_root = '../myprivate_coco/val2014'
+        images_root = '../data/coco/val2014'
+        #images_root = '../myprivate_coco/val2014'
     elif dataset_mode == 1:
         images_root = '/home/gamir/DER-Roei/davidn/flicker30/flickr30k_images'
     elif dataset_mode == 2 or dataset_mode == 3 or dataset_mode == 4:
@@ -345,7 +345,7 @@ def make_preds(data, model: ClipCaptionModel, out_path, tokenizer, dataset_mode,
 def load_data(dataset_mode):
     if dataset_mode == 0:
         with open(
-                f'/home/gamir/DER-Roei/davidn/myprivate_coco/annotations/single_caption_per_sample_val.json',
+                f'../post_processed_karpthy_coco_{INPUT_SIZE}/val.json',
                 'r') as f:
             data = json.load(f)
     elif dataset_mode == 1:
@@ -417,9 +417,9 @@ def main():
     print('loaded tokenizer')
     sys.stdout.flush()
 
-    images_root = "./data/coco/train2014"
+    images_root = "../data/coco/train2014"
     if not os.path.isdir(images_root):
-        images_root = "./data/coco/val2014"
+        images_root = "../data/coco/val2014"
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--checkpoint', default=f'./checkpoints/coco_prefix_t10_rn-006.pt')

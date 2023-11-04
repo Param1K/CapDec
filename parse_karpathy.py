@@ -1,9 +1,9 @@
 import pickle, json
 
-kagle_json = 'annotations/dataset_coco_from_kaggle.json'
-new_json_train = 'post_processed_karpthy_coco/train.json'
-new_json_test = 'post_processed_karpthy_coco/test.json'
-new_json_val = 'post_processed_karpthy_coco/val.json'
+kagle_json = '../annotations/dataset_coco.json'
+new_json_train = f'../post_processed_karpthy_coco_{INPUT_SIZE}/train.json'
+new_json_test = f'../post_processed_karpthy_coco_{INPUT_SIZE}/test.json'
+new_json_val = f'../post_processed_karpthy_coco_{INPUT_SIZE}/val.json'
 
 
 def map_format_kaggle_to_clipcap():
@@ -18,10 +18,22 @@ def map_format_kaggle_to_clipcap():
     splits = {'train': train_data, 'test': test_data, 'val': val_data, 'restval': train_data}
     out_names = {'train': new_json_train, 'test': new_json_test, 'val': new_json_val}
     for img in kaggle_data['images']:
-        imgid = extract_imgid_from_name(img['filename'])
-        for cap in img['sentences']:
-            correct_format = {"image_id": int(imgid), "caption": cap['raw'], "id": int(cap['sentid'])}
-            splits[img['split']].append(correct_format)
+        flag = False
+        if img['split'] == 'train' or img['split'] == 'restval':
+            if train_count:
+                train_count = train_count - 1
+                flag = True
+        elif img['split'] == 'test' and test_count:
+            test_count = test_count - 1
+            flag = True
+        elif img['split'] == 'val' and val_count:
+            val_count = val_count - 1
+            flag = True
+        if flag:
+            imgid = extract_imgid_from_name(img['filename'])
+            for cap in img['sentences']:
+                correct_format = {"image_id": int(imgid), "caption": cap['raw'], "id": int(cap['sentid'])}
+                splits[img['split']].append(correct_format)
 
     DBG = False
     if not DBG:
@@ -35,6 +47,7 @@ def map_format_kaggle_to_clipcap():
                 ids = [{"id": int(a["image_id"])} for a in annos]
                 final = {"images": ids, "annotations": annos}
                 json.dump(final, f)
+    print("Done")
 
     if DBG:
         # rons annotations

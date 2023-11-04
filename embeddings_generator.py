@@ -61,7 +61,7 @@ def main(clip_model_type, clip_model_name, out_path, annotations_path, images_pa
         if not add_text_embedding:
             if images_path != 'NoImgs':
                 if data_mode == 0:
-                    filename = f"./data/coco/train2014/COCO_train2014_{int(img_id):012d}.jpg"
+                    filename = f"../data/coco/train2014/COCO_train2014_{int(img_id):012d}.jpg"
                 else:
                     filename = images_path + d['filename']
                 if os.path.isfile(filename):
@@ -116,12 +116,12 @@ def run_main():
     args = parser.parse_args()
     clip_model_name = args.clip_model_type.replace('/', '_')
     if args.dataset_mode == 0:
-        out_path = f"./data/coco/verified_split_COCO_train_set.pkl"
+        out_path = f"../data/coco/verified_split_COCO_train_set.pkl"
         if add_text_embedding:
             out_path = f"./data/coco/verified_split_COCO_train_set_with_text_not_norm.pkl"
             print(f'Text embeddings will be added to the dataset')
-        annotations_path = f'/home/gamir/DER-Roei/davidn/myprivate_coco/annotations/train.json'
-        images_path = '/home/gamir/DER-Roei/davidn/myprivate_coco/train2014/'
+        annotations_path = f'../post_processed_karpthy_coco_{INPUT_COUNT}/train.json'
+        images_path = '../data/coco/train2014'
     elif args.dataset_mode == 0.5:
         out_path = f"./data/coco/COCO_val_set_single_cap_per_sample.pkl"
         if add_text_embedding:
@@ -182,7 +182,8 @@ def run_main():
         annotations_path = f"parssed_sheikspir_alllines_111k.json"
         images_path = f'NoImgs'
     print(f'out_path is {out_path} fix gender imbalance is {args.fix_gender_imbalance_mode}')
-    exit(main(args.clip_model_type, clip_model_name, out_path, annotations_path, images_path, args.fix_gender_imbalance_mode, data_mode=args.dataset_mode))
+    #exit(main(args.clip_model_type, clip_model_name, out_path, annotations_path, images_path, args.fix_gender_imbalance_mode, data_mode=args.dataset_mode))
+    main(args.clip_model_type, clip_model_name, out_path, annotations_path, images_path, args.fix_gender_imbalance_mode, data_mode=args.dataset_mode)
 
 
 if __name__ == '__main__':

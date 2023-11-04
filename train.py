@@ -11,6 +11,9 @@ import sys
 import argparse
 import json, math
 from typing import Tuple, Optional, Union
+import gc
+
+
 
 device = torch.device('cuda:0')
 
@@ -361,6 +364,8 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args, warmup_steps:
                     model.state_dict(),
                     os.path.join(output_dir, f"{output_prefix}_latest.pt"),
                 )
+            torch.cuda.empty_cache()
+
         progress.close()
         loss_per_epoch_train.append(accumulated_loss / len(train_dataloader))
         print('loss_per_epoch_train: ', loss_per_epoch_train)
@@ -384,11 +389,15 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args, warmup_steps:
                     logits = outputs.logits[:, dataset.prefix_length - 1: -1]
                     loss = nnf.cross_entropy(logits.reshape(-1, logits.shape[-1]), tokens.flatten(), ignore_index=0)
                     val_loss += loss.item()
+                    torch.cuda.empty_cache()
+
             model.train()
             loss_per_epoch_val.append(val_loss / len(val_dataloader))
             print('loss_per_epoch_val: ', loss_per_epoch_val)
         with open(os.path.join(output_dir, f"loss_per_epoch.json"), 'w') as f:
             json.dump({'train': loss_per_epoch_train, 'val': loss_per_epoch_val}, f)
+        gc.collect()
+
     return model
 
 
