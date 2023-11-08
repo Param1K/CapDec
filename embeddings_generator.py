@@ -8,7 +8,7 @@ import os
 from tqdm import tqdm
 import argparse, math
 
-INPUT_SIZE = '500'
+INPUT_SIZE = '50k'
 
 # dave conf
 # ~~~~~~~~~

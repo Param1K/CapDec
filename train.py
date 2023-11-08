@@ -478,6 +478,6 @@ def main():
 if __name__ == '__main__':
     main()
     # On Laptop
-    # args : --data ..\data\coco\verified_split_COCO_train_set_with_text_not_norm_500.pkl --bs 4 --epochs 10 --out_dir ../coco_train/ --noise_variance 0.016
+    # args : --data ..\data\coco\verified_split_COCO_train_set_with_text_not_norm_full.pkl --bs 4 --epochs 10 --out_dir ../coco_train/ --noise_variance 0.016
     # On Colab
-    # args : --data .\verified_split_COCO_train_set_with_text_not_norm_500.pkl --bs 4 --epochs 10 --out_dir ./coco_train/ --noise_variance 0.016
+    # args : --data .\verified_split_COCO_train_set_with_text_not_norm_full.pkl --bs 4 --epochs 10 --out_dir ./coco_train/ --noise_variance 0.016

@@ -2,7 +2,7 @@ import pickle, json
 import os
 kagle_json = '../annotations/dataset_coco.json'
 
-INPUT_SIZE = '500'
+INPUT_SIZE = 'full' # 'full' ,'50k', '20k', '10k', '5k', '1k', '500'
 
 new_data_path = f'../post_processed_karpthy_coco_{INPUT_SIZE}'
 if not os.path.exists(new_data_path):
@@ -11,7 +11,6 @@ if not os.path.exists(new_data_path):
 new_json_train = f'../post_processed_karpthy_coco_{INPUT_SIZE}/train.json'
 new_json_test = f'../post_processed_karpthy_coco_{INPUT_SIZE}/test.json'
 new_json_val = f'../post_processed_karpthy_coco_{INPUT_SIZE}/val.json'
-
 
 
 def map_format_kaggle_to_clipcap(INPUT_SIZE):
@@ -23,7 +22,19 @@ def map_format_kaggle_to_clipcap(INPUT_SIZE):
     train_data = []
     test_data = []
     val_data = []
-    if INPUT_SIZE == '10k':
+    if INPUT_SIZE == 'full':
+        train_count = 100000
+        test_count = 100000
+        val_count = 100000
+    elif INPUT_SIZE == '50k':
+        train_count = 50000
+        test_count = 10000
+        val_count = 10000
+    elif INPUT_SIZE == '20k':
+        train_count = 20000
+        test_count = 4000
+        val_count = 4000
+    elif INPUT_SIZE == '10k':
         train_count = 10000
         test_count = 2000
         val_count = 2000
