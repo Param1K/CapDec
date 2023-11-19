@@ -13,7 +13,7 @@ import json, math
 from typing import Tuple, Optional, Union
 import gc
 
-INPUT_SIZE = '500'
+INPUT_SIZE = '10k'
 
 device = torch.device('cuda:0')
 
@@ -372,7 +372,7 @@ def train(dataset: ClipCocoDataset, model: ClipCaptionModel, args, warmup_steps:
         if epoch % args.save_every == 0 or epoch == epochs - 1:
             torch.save(
                 model.state_dict(),
-                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}.pt"),
+                os.path.join(output_dir, f"{output_prefix}-{epoch:03d}-{args.noise_variance}.pt"),
             )
         if args.val_pt:
             val_dataset = ClipCocoDataset(args.val_pt, args.prefix_length, normalize_prefix=not args.dont_norm,
